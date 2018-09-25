@@ -60,9 +60,26 @@ dim(gapminder)
 ``` r
 # dimnames(gapminder) will give the names of columns and rows of the dataframe. 
 # In this case it will give numbers 1:1704 and the names of the variables.
+
+# str for data frame returns the list of data structure, where you can also see the dimension of the data
+str(gapminder)
 ```
 
-Based on the output, we can answer questions that, gapminder object is a data.frame, also tbl and tbl\_df based on its class attribute. In addition, there is no missing data in `gapminer` dataset.
+    ## Classes 'tbl_df', 'tbl' and 'data.frame':    1704 obs. of  6 variables:
+    ##  $ country  : Factor w/ 142 levels "Afghanistan",..: 1 1 1 1 1 1 1 1 1 1 ...
+    ##  $ continent: Factor w/ 5 levels "Africa","Americas",..: 3 3 3 3 3 3 3 3 3 3 ...
+    ##  $ year     : int  1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...
+    ##  $ lifeExp  : num  28.8 30.3 32 34 36.1 ...
+    ##  $ pop      : int  8425333 9240934 10267083 11537966 13079460 14880372 12881816 13867957 16317921 22227415 ...
+    ##  $ gdpPercap: num  779 821 853 836 740 ...
+
+``` r
+# For a small set of data, a more straight forward way is to view the data. 
+# View(gapminder)
+# This function will open a new window in Rstudio so that you can see the actual data frame presenting as a table.
+```
+
+Based on the output, we can answer questions that, gapminder object is a data.frame, also tbl and tbl\_df based on its class attribute. In addition, there is no missing data in `gapminder` dataset.
 
 ``` r
 sum(is.na(gapminder))
@@ -110,7 +127,7 @@ head(gapminder)
     ## 5 Afghanistan Asia       1972    36.1 13079460      740.
     ## 6 Afghanistan Asia       1977    38.4 14880372      786.
 
-Detailed descriptions of the variables can be found in the follwing table:
+Detailed descriptions of the variables can be found in the following table:
 
 | Variables   | Description                                           | Type    |
 |-------------|:------------------------------------------------------|---------|
@@ -201,7 +218,7 @@ detach(gapminder)
 
 ### Summary Statistics
 
-From the basic summary statistics of the variables, we can see that the two numeric variables: life expectancy and gdpPercap, range from 23.60 to 82.60 and 241.2 to 113423.1 respectively. Further exploration on the variables and their interactions using various plots are shown in the following section.
+From the basic summary statistics of the variables, we can see that the two numeric variables: `lifeExp` and `gdpPercap`, range from 23.60 to 82.60 and 241.2 to 113423.1 respectively. Further exploration on the variables and their interactions using various plots are shown in the following section.
 
 ``` r
 summary(gapminder)
@@ -229,9 +246,9 @@ Exploratory Data Analysis
 
 ### Selective Variable Display
 
-In this section, two variables are displayed using a few interesting tools in R packages `ggplot2`,`dplyr`,`waffle`for data vsual display.
+In this section, two variables are displayed using a few interesting tools in R packages `ggplot2`,`dplyr`,`waffle`for data visual display.
 
-The histograms shown below represent a rough data distribution of the `lifeExp` variable. The first plot shows the count of values of `lifeExp` that lies in some intervals based on the bins we chose. The histogram can show how roughly the data is spread. We can see that the distribution of `lifeExp` is slightly left skewed with most values lie around 70-75. The kernel density plot also clearly shows that there are two humps which indicate that more values lie around these areas. Note that this is just a rough picture of what values can this variable take, we have not used any other information presented in the data yet. This is useful in the sense that when we want to check normality assumption of some variables, histogram can give us some intuition. In our case, `lifeExp` among all continents, countries and years is certainly not normally distributed, which is illustrated by the qq plot below.
+The histograms shown below represent the rough data distribution of the `lifeExp` variable. The first plot shows the count of values of `lifeExp` that lies in some intervals based on the bins we chose. The histogram can show how roughly the data is spread. We can see that the distribution of `lifeExp` is slightly left skewed with most values lie around 70-75. The kernel density plot also clearly shows that there are two humps which indicate that more values lie around these areas. Note that this is just a rough picture of what values this variable can take, we have not used any other information presented in the data yet. This is useful in the sense that when we want to check normality assumption of some variables, histogram can give us some intuition. In our case, `lifeExp` among all continents, countries and years is certainly not normally distributed, which is illustrated by the qq plot below.
 
 ``` r
 theme_set(theme_gray())
@@ -257,11 +274,12 @@ ggplot(gapminder, aes(sample = lifeExp))+
 
 ![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-11-1.png)
 
-To illustrate a categorical variable, here I present the barplot, pie chart and a "fresher"" waffle plot of the frequencies of the `continent` variable using the ggplot2 package for data visualization. To start with, we would like to create a data frame based on the table of `continent` we generated earlier as ggplot takes a data frame as an input. As we can see, after make the table as a data frame, now the continent row we had in the table became a column in our new data frame `df`.
+To illustrate a categorical variable, here I present the barplot, pie chart and a "fresher"" waffle plot of the frequencies of the `continent` variable using the `ggplot2` and `waffle` package for data visualization. To start with, we would like to create a data frame based on the table of `continent` we generated earlier as ggplot takes a data frame as an input. As we can see, after make the table as a data frame, now the continent row we had in the table became a column in our new data frame `df`.
 
 ``` r
-# get the table of continent and countries and create a data frame
+# get the table of continent
 attach(gapminder)
+# create a data frame
 df = data.frame(table(continent))
 head(df)
 ```
@@ -291,6 +309,7 @@ bp
 ![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-13-1.png)
 
 ``` r
+# create the pie chart
 pie = bp + coord_polar("y")
 pie
 ```
@@ -302,10 +321,16 @@ detach(gapminder)
 ```
 
 ``` r
+# extract the values from df
 vals = as.vector(df$Freq)
+
 # create the names of the values
 val_names= sprintf("%s (%s)", c("Asia", "Europe", "Africa","Americas", "Oceania "),df$prop)
+
+# name the values using val_names
 names(vals) = val_names
+
+# make the waffle plot
 waffle::waffle(vals, size = 0.5,rows = 30)
 ```
 
@@ -313,11 +338,11 @@ waffle::waffle(vals, size = 0.5,rows = 30)
 
 ### Questions of Interest
 
-Besides seeing how the variables themselves are distributed, our interest also lies on the additional information given by interacting with other variables. For example, what if we want to answer the following questions:
+Besides seeing how the variables themselves are distributed, our interest also lies on the additional information given by interacting with other information. For example, what if we want to answer the following questions:
 
-***Q1: How the population is spread among different continents?***
+***Q1: How the population, variable `pop` is spread out among different continents?***
 
-Boxplot is a easy way to show how a variable distributed by different groups. For example, we can easily see that among the 5 continents, on average, Asian has the highest population but not as high when it comes to GDP per capita. Oceania has the highest GDP per capita on average. And we can also easily detect outlliers and see how spread out the variables are from the boxplot.
+Boxplot is a easy way to show how a variable distributed by different groups. Based on the boxplots, we can easily see that among the 5 continents, on average, Asian has the highest population but not as high when it comes to GDP per capita. Oceania has the highest GDP per capita on average. And we can also easily detect outlliers and see how spread out the variables are from the boxplot.
 
 ``` r
 pop_conti = ggplot(gapminder, aes(continent, pop, fill = continent))
@@ -358,7 +383,25 @@ ggplot(gapminder, aes(log(gdpPercap), fill= continent)) +
 
 ![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-15-4.png)
 
-***Q2: Can we get some intuition on how life expectancy relate to the levels of wealth?***
+Besides boxplots, `ggplot2` also have many other similar tools for such data visualization. Here I present a few examples for further reference:
+
+``` r
+# A jitter plot
+gg = ggplot(gapminder, aes(continent, pop, color = continent))+
+  scale_y_log10()
+gg+geom_jitter()+scale_fill_brewer(palette="Set1")
+```
+
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-16-1.png)
+
+``` r
+# violin plot along with jitter plot
+gg+geom_violin()+geom_jitter(alpha = 0.2)+scale_fill_brewer(palette="Set1")
+```
+
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-16-2.png)
+
+***Q2: Can we get some intuition on how life expectancy is related to the level of wealth?***
 
 Taking the log transformation is commonly used to make the highly skewed distributions less skewed. A comparision of after and before transfromation is shown below. From the less skewed plot we can get the intuition that wealthy areas tend to have higher life expectancy than areas with less wealth.
 
@@ -373,10 +416,11 @@ sc2 = gapminder%>%
   ggplot(aes(gdpPercap, lifeExp, color = continent, shape = continent))+
   geom_point()
 
+# put them side by side 
 plot_grid(sc1, sc2, labels = "AUTO")  
 ```
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-16-1.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-17-1.png)
 
 ``` r
 # Add a fitted curve to the points
@@ -388,7 +432,7 @@ gapminder %>%
 
     ## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-16-2.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-17-2.png)
 
 ``` r
 # Faceting
@@ -400,39 +444,40 @@ gapminder %>% ggplot(aes(gdpPercap, lifeExp)) + scale_x_log10()+
 
     ## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-16-3.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-17-3.png)
 
 ***Q3: If I want to do some analysis, what about the common assumption of normality?***
 
-Since overall the `lifeExp` does not comply with normal distribution, what if we explore it by the continent? By factoring the qq plot with continent, we can see that the Oceania seems to be approximately normally distributed.
+Since the `lifeExp` does not comply with normal distribution overall, what if we explore it by the continent? By factoring the qq plot with `continent`, we can see that the `Oceania` seems to be approximately normally distributed.
 
 ``` r
+# plot the qqplot factored by different continents
 ggplot(gapminder, aes(sample = lifeExp, colour = factor(continent)))+
   stat_qq()+stat_qq_line()
 ```
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-17-1.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-18-1.png)
 
-***Q4: I am interested in the continent Oceania, and howo can I get a closer look into the `gdpPercap` by year?***
+***Q4: I am interested in the continent `Oceania`. How can I get a closer look into the `gdpPercap` by year?***
 
-From this plot below we can see the over all trend of the gdpPercap over years along with the individual year distribution of the variable.
+From this plot below we can see the overall trend of the gdpPercap over years along with the individual year distribution of the variable.
 
 ``` r
 oce = gapminder%>%
-  select(continent, year, gdpPercap)%>%       # select only the columns needed
-  filter(continent=="Oceania")
+  select(continent, year, gdpPercap)%>%   # select only the columns needed
+  filter(continent=="Oceania")            # get the data that in the continent Oceania
 
-oce %>%             # get the data that in the continent Oceania
-  ggplot(aes(year, gdpPercap, group = year))+ 
+oce %>%             
+  ggplot(aes(year, gdpPercap, group = year))+  # group by year 
   scale_y_log10()+
   geom_boxplot()
 ```
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-18-1.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-19-1.png)
 
-***Q5: I am interested in the country Thailand and Vienam, I would like to see how `lifeExp` and `gdpPercap` spread out with additional information of the population***
+***Q5: I am interested in the country `Thailand` and `Vienam`, I would like to see how `lifeExp` and `gdpPercap` spread out with additional information of the population***
 
-With adding the size and color scale based on population, we can easily tell the relative size of the population at each points in the regular scatter plot. It gives us more information in a very straight way.
+With adding the size and color scale based on population, we can easily tell the relative size of the population at each points in the regular scatter plot. It gives us more information in a very straightforward way.
 
 ``` r
 gapminder %>% 
@@ -442,7 +487,7 @@ gapminder %>%
   scale_color_gradient(low = "#0091ff", high = "#f0650e")
 ```
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-19-1.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-20-1.png)
 
 Reference and Source.
 ---------------------
@@ -454,11 +499,12 @@ Brewer Palettes: <http://mkweb.bcgsc.ca/brewer/>
 Extra Exercise
 --------------
 
-From the out put we can see that the first version which uses `==` actually runs in R without giving errors. But the result shows that it only gives half of the subset we need. The thing R does by running this code is, it compares the country in the odd number of rows with `"Rwanda"` and even number of rows with `"Afghanistan"`, and generates the output.
+From the output we can see that the first version which uses `==` actually runs in R without giving errors. But the result shows that it only gives half of the subset we need. The thing R does by running this code is, it compares the country in the odd number of rows with `"Rwanda"` and even number of rows with `"Afghanistan"`, and generates the output.
 
-The right way to do this is using `%in%` or `|`
+The right way to do this is using `%in%` or `|` . Here I present first few rows of the output and you can tell whether they are working or not by looking at the year increments and dimensions.
 
 ``` r
+# "wrong" way of doing it.
 tb1 = gapminder%>%
 filter(country == c("Rwanda", "Afghanistan"))
 dim(tb1)
@@ -482,6 +528,7 @@ knitr::kable(format = "markdown")
 | Afghanistan | Asia      |  2007|   43.828|  31889923|   974.5803|
 
 ``` r
+# approach 1
 tb2 = filter(gapminder, country %in% c("Rwanda", "Afghanistan"))
 dim(tb2)
 ```
@@ -504,6 +551,7 @@ knitr::kable(format = "markdown")
 | Afghanistan | Asia      |  1977|   38.438|  14880372|   786.1134|
 
 ``` r
+# approach 2
 tb3 = filter(gapminder, country == "Rwanda"| country == "Afghanistan")
 dim(tb3)
 ```
