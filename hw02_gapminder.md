@@ -288,14 +288,14 @@ bp =
 bp
 ```
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-12-1.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-13-1.png)
 
 ``` r
 pie = bp + coord_polar("y")
 pie
 ```
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-12-2.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-13-2.png)
 
 ``` r
 detach(gapminder)
@@ -309,7 +309,9 @@ names(vals) = val_names
 waffle::waffle(vals, size = 0.5,rows = 30)
 ```
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-13-1.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-14-1.png)
+
+### Questions of Interest
 
 Besides seeing how the variables themselves are distributed, our interest also lies on the additional information given by interacting with other variables. For example, what if we want to answer the following questions:
 
@@ -325,7 +327,7 @@ pop_conti+
   scale_fill_brewer(palette="Dark2") # Use the color palette "Dark2"
 ```
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-14-1.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-15-1.png)
 
 ``` r
 # There are a few outliers that drag the plot wide that we cannot see the details
@@ -337,7 +339,7 @@ ggplot(aes(pop, fill= continent)) +
   scale_fill_brewer(palette="Set1")
 ```
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-14-2.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-15-2.png)
 
 ``` r
 ggplot(gapminder, aes(continent, gdpPercap,fill = continent))+
@@ -346,7 +348,7 @@ ggplot(gapminder, aes(continent, gdpPercap,fill = continent))+
   scale_fill_brewer(palette="Set1")
 ```
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-14-3.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-15-3.png)
 
 ``` r
 ggplot(gapminder, aes(log(gdpPercap), fill= continent)) +
@@ -354,7 +356,7 @@ ggplot(gapminder, aes(log(gdpPercap), fill= continent)) +
   scale_fill_brewer(palette="Set1")
 ```
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-14-4.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-15-4.png)
 
 ***Q2: Can we get some intuition on how life expectancy relate to the levels of wealth?***
 
@@ -374,7 +376,7 @@ sc2 = gapminder%>%
 plot_grid(sc1, sc2, labels = "AUTO")  
 ```
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-15-1.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-16-1.png)
 
 ``` r
 # Add a fitted curve to the points
@@ -386,7 +388,7 @@ gapminder %>%
 
     ## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-15-2.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-16-2.png)
 
 ``` r
 # Faceting
@@ -398,7 +400,7 @@ gapminder %>% ggplot(aes(gdpPercap, lifeExp)) + scale_x_log10()+
 
     ## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-15-3.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-16-3.png)
 
 ***Q3: If I want to do some analysis, what about the common assumption of normality?***
 
@@ -409,7 +411,7 @@ ggplot(gapminder, aes(sample = lifeExp, colour = factor(continent)))+
   stat_qq()+stat_qq_line()
 ```
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-16-1.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-17-1.png)
 
 ***Q4: I am interested in the continent Oceania, and howo can I get a closer look into the `gdpPercap` by year?***
 
@@ -426,7 +428,7 @@ oce %>%             # get the data that in the continent Oceania
   geom_boxplot()
 ```
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-17-1.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-18-1.png)
 
 ***Q5: I am interested in the country Thailand and Vienam, I would like to see how `lifeExp` and `gdpPercap` spread out with additional information of the population***
 
@@ -435,12 +437,12 @@ With adding the size and color scale based on population, we can easily tell the
 ``` r
 gapminder %>% 
   filter(country %in% c("Thailand", "Vietnam"))%>%
-  ggplot(aes(log(gdpPercap), lifeExp, shape = country, color = pop, size = pop))+
-  geom_point()+
+  ggplot(aes(log(gdpPercap), lifeExp, shape = country, color = pop))+
+  geom_point(aes(size = pop))+ scale_size_area()+
   scale_color_gradient(low = "#0091ff", high = "#f0650e")
 ```
 
-![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-18-1.png)
+![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-19-1.png)
 
 Reference and Source.
 ---------------------
@@ -448,3 +450,77 @@ Reference and Source.
 `gapminder` Data Source<https://www.gapminder.org/data/>
 
 Brewer Palettes: <http://mkweb.bcgsc.ca/brewer/>
+
+Extra Exercise
+--------------
+
+From the out put we can see that the first version which uses `==` actually runs in R without giving errors. But the result shows that it only gives half of the subset we need. The thing R does by running this code is, it compares the country in the odd number of rows with `"Rwanda"` and even number of rows with `"Afghanistan"`, and generates the output.
+
+The right way to do this is using `%in%` or `|`
+
+``` r
+tb1 = gapminder%>%
+filter(country == c("Rwanda", "Afghanistan"))
+dim(tb1)
+```
+
+    ## [1] 12  6
+
+``` r
+tb1%>%
+  head()%>%
+knitr::kable(format = "markdown")
+```
+
+| country     | continent |  year|  lifeExp|       pop|  gdpPercap|
+|:------------|:----------|-----:|--------:|---------:|----------:|
+| Afghanistan | Asia      |  1957|   30.332|   9240934|   820.8530|
+| Afghanistan | Asia      |  1967|   34.020|  11537966|   836.1971|
+| Afghanistan | Asia      |  1977|   38.438|  14880372|   786.1134|
+| Afghanistan | Asia      |  1987|   40.822|  13867957|   852.3959|
+| Afghanistan | Asia      |  1997|   41.763|  22227415|   635.3414|
+| Afghanistan | Asia      |  2007|   43.828|  31889923|   974.5803|
+
+``` r
+tb2 = filter(gapminder, country %in% c("Rwanda", "Afghanistan"))
+dim(tb2)
+```
+
+    ## [1] 24  6
+
+``` r
+tb2%>% 
+  head()%>%
+knitr::kable(format = "markdown")
+```
+
+| country     | continent |  year|  lifeExp|       pop|  gdpPercap|
+|:------------|:----------|-----:|--------:|---------:|----------:|
+| Afghanistan | Asia      |  1952|   28.801|   8425333|   779.4453|
+| Afghanistan | Asia      |  1957|   30.332|   9240934|   820.8530|
+| Afghanistan | Asia      |  1962|   31.997|  10267083|   853.1007|
+| Afghanistan | Asia      |  1967|   34.020|  11537966|   836.1971|
+| Afghanistan | Asia      |  1972|   36.088|  13079460|   739.9811|
+| Afghanistan | Asia      |  1977|   38.438|  14880372|   786.1134|
+
+``` r
+tb3 = filter(gapminder, country == "Rwanda"| country == "Afghanistan")
+dim(tb3)
+```
+
+    ## [1] 24  6
+
+``` r
+tb3%>% 
+  head()%>%
+knitr::kable(format = "markdown")
+```
+
+| country     | continent |  year|  lifeExp|       pop|  gdpPercap|
+|:------------|:----------|-----:|--------:|---------:|----------:|
+| Afghanistan | Asia      |  1952|   28.801|   8425333|   779.4453|
+| Afghanistan | Asia      |  1957|   30.332|   9240934|   820.8530|
+| Afghanistan | Asia      |  1962|   31.997|  10267083|   853.1007|
+| Afghanistan | Asia      |  1967|   34.020|  11537966|   836.1971|
+| Afghanistan | Asia      |  1972|   36.088|  13079460|   739.9811|
+| Afghanistan | Asia      |  1977|   38.438|  14880372|   786.1134|

@@ -135,11 +135,22 @@ g2 = ggplot(gapminder, aes(lifeExp))+
 plot_grid(g1,g2, labels = "AUTO",ncol = 2,scale = c(1.,1.))
 ```
 
+
+
 ```{r}
 # plot the qq plot
 ggplot(gapminder, aes(sample = lifeExp))+
   stat_qq()+stat_qq_line()
 ```
+
+```{r}
+
+```
+
+
+
+
+
 
 
 To illustrate a categorical variable, here I present the barplot, pie chart and a "fresher"" waffle plot of the frequencies of the `continent` variable using the ggplot2 package for data visualization. To start with, we would like to create a data frame based on the table of `continent` we generated earlier as ggplot takes a data frame as an input. As we can see, after make the table as a data frame, now the continent row we had in the table became a column in our new data frame `df`. 
@@ -174,6 +185,7 @@ names(vals) = val_names
 waffle::waffle(vals, size = 0.5,rows = 30)
 ```
 
+### Questions of Interest
 
 Besides seeing how the variables themselves are distributed, our interest also lies on the additional information given by interacting with other variables. For example, what if we want to answer the following questions:
 
@@ -274,8 +286,8 @@ With adding the size and color scale based on population, we can easily tell the
 ```{r}
 gapminder %>% 
   filter(country %in% c("Thailand", "Vietnam"))%>%
-  ggplot(aes(log(gdpPercap), lifeExp, shape = country, color = pop, size = pop))+
-  geom_point()+
+  ggplot(aes(log(gdpPercap), lifeExp, shape = country, color = pop))+
+  geom_point(aes(size = pop))+ scale_size_area()+
   scale_color_gradient(low = "#0091ff", high = "#f0650e")
 ```
 
@@ -286,4 +298,32 @@ gapminder %>%
 `gapminder` Data Source<https://www.gapminder.org/data/>
 
 Brewer Palettes: <http://mkweb.bcgsc.ca/brewer/>
+
+## Extra Exercise
+From the out put we can see that the first version which uses `==` actually runs in R without giving errors. But the result shows that it only gives half of the subset we need. The thing R does by running this code is, it compares the country in the odd number of rows with `"Rwanda"` and even number of rows with `"Afghanistan"`, and generates the output. 
+
+The right way to do this is using `%in%` or `|` 
+```{r}
+tb1 = gapminder%>%
+filter(country == c("Rwanda", "Afghanistan"))
+dim(tb1)
+tb1%>%
+  head()%>%
+knitr::kable(format = "markdown")
+
+
+tb2 = filter(gapminder, country %in% c("Rwanda", "Afghanistan"))
+dim(tb2)
+tb2%>% 
+  head()%>%
+knitr::kable(format = "markdown")
+
+
+tb3 = filter(gapminder, country == "Rwanda"| country == "Afghanistan")
+dim(tb3)
+tb3%>% 
+  head()%>%
+knitr::kable(format = "markdown")
+
+```
 
