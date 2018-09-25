@@ -356,7 +356,9 @@ ggplot(gapminder, aes(log(gdpPercap), fill= continent)) +
 
 ![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-14-4.png)
 
-***Q2: Can we get some intuition on how life expectancy relate to the levels of wealth? *** Taking the log transformation is commonly used to make the highly skewed distributions less skewed. A comparision of after and before transfromation is shown below. From the less skewed plot we can get the intuition that wealthy areas tend to have higher life expectancy than areas with less wealth.
+***Q2: Can we get some intuition on how life expectancy relate to the levels of wealth?***
+
+Taking the log transformation is commonly used to make the highly skewed distributions less skewed. A comparision of after and before transfromation is shown below. From the less skewed plot we can get the intuition that wealthy areas tend to have higher life expectancy than areas with less wealth.
 
 ``` r
 # perform the log transformation of the gdpPercap and create a scatter plot
@@ -398,7 +400,9 @@ gapminder %>% ggplot(aes(gdpPercap, lifeExp)) + scale_x_log10()+
 
 ![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-15-3.png)
 
-**Q3: *If I want to do some analysis, what about the common assumption of normality?*** Since overall the `lifeExp` does not comply with normal distribution, what if we explore it by the continent? By factoring the qq plot with continent, we can see that the Oceania seems to be approximately normally distributed.
+***Q3: If I want to do some analysis, what about the common assumption of normality?***
+
+Since overall the `lifeExp` does not comply with normal distribution, what if we explore it by the continent? By factoring the qq plot with continent, we can see that the Oceania seems to be approximately normally distributed.
 
 ``` r
 ggplot(gapminder, aes(sample = lifeExp, colour = factor(continent)))+
@@ -407,7 +411,7 @@ ggplot(gapminder, aes(sample = lifeExp, colour = factor(continent)))+
 
 ![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-16-1.png)
 
-\*\*Q3: \_I am interested in the continent Oceania, and howo can I get a closer look into the `gdpPercap` by year?\*\*
+***Q4: I am interested in the continent Oceania, and howo can I get a closer look into the `gdpPercap` by year?***
 
 From this plot below we can see the over all trend of the gdpPercap over years along with the individual year distribution of the variable.
 
@@ -424,7 +428,7 @@ oce %>%             # get the data that in the continent Oceania
 
 ![](hw02_gapminder_files/figure-markdown_github/unnamed-chunk-17-1.png)
 
-**Q4: *I am interested in the country Thailand and Vienam, I would like to see how `lifeExp` and `gdpPercap` spread out with additional information of the population***
+***Q5: I am interested in the country Thailand and Vienam, I would like to see how `lifeExp` and `gdpPercap` spread out with additional information of the population***
 
 With adding the size and color scale based on population, we can easily tell the relative size of the population at each points in the regular scatter plot. It gives us more information in a very straight way.
 

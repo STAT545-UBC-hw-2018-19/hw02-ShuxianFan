@@ -207,7 +207,8 @@ ggplot(gapminder, aes(log(gdpPercap), fill= continent)) +
   scale_fill_brewer(palette="Set1")
 ```
 
-**_Q2: Can we get some intuition on how life expectancy relate to the levels of wealth? _**
+**_Q2: Can we get some intuition on how life expectancy relate to the levels of wealth?_**
+
 Taking the log transformation is commonly used to make the highly skewed distributions less skewed. A comparision of after and before transfromation is shown below. From the less skewed plot we can get the intuition that wealthy areas tend to have higher life expectancy than areas with less wealth.
 
 ```{r}
@@ -241,7 +242,8 @@ gapminder %>% ggplot(aes(gdpPercap, lifeExp)) + scale_x_log10()+
 
 
 
-**Q3: _If I want to do some analysis, what about the common assumption of normality?_**
+**_Q3: If I want to do some analysis, what about the common assumption of normality?_**
+
 Since overall the `lifeExp` does not comply with normal distribution, what if we explore it by the continent?
 By factoring the qq plot with continent, we can see that the Oceania seems to be approximately normally distributed.
 
@@ -250,7 +252,7 @@ ggplot(gapminder, aes(sample = lifeExp, colour = factor(continent)))+
   stat_qq()+stat_qq_line()
 ```
 
-**Q3: _I am interested in the continent Oceania, and howo can I get a closer look into the `gdpPercap` by year?**
+**_Q4: I am interested in the continent Oceania, and howo can I get a closer look into the `gdpPercap` by year?_**
 
 From this plot below we can see the over all trend of the gdpPercap over years along with the individual year distribution of the variable.
 ```{r}
@@ -265,7 +267,7 @@ oce %>%             # get the data that in the continent Oceania
 
 ```
 
-**Q4: _I am interested in the country Thailand and Vienam, I would like to see how `lifeExp` and `gdpPercap` spread out with additional information of the population_**
+**_Q5: I am interested in the country Thailand and Vienam, I would like to see how `lifeExp` and `gdpPercap` spread out with additional information of the population_**
 
 With adding the size and color scale based on population, we can easily tell the relative size of the population at each points in the regular scatter plot. It gives us more information in a very straight way. 
 
