@@ -492,7 +492,7 @@ gapminder %>%
 Reference and Source.
 ---------------------
 
-`gapminder` Data Source<https://www.gapminder.org/data/>
+`gapminder` Data Source: <https://www.gapminder.org/data/>
 
 Brewer Palettes: <http://mkweb.bcgsc.ca/brewer/>
 
