@@ -5,4 +5,7 @@ The goal is to explore the dataset `gapminder`using useful tools in R packages l
 
 Here are the links for the corresponding files:
 
-[hw02_gapminder.md]<https://github.com/STAT545-UBC-students/hw02-ShuxianFan/blob/master/hw02_gapminder.md>
+[hw02_gapminder_md] (https://github.com/STAT545-UBC-students/hw02-ShuxianFan/blob/master/hw02_gapminder.md)
+
+[hw02_gapminder_Rmd](https://github.com/STAT545-UBC-students/hw02-ShuxianFan/blob/master/hw02_gapminder.Rmd)
+
