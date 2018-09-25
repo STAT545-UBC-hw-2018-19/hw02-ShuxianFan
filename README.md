@@ -10,5 +10,5 @@ Here are the links for the corresponding files:
 [hw02_gapminder_Rmd](https://github.com/STAT545-UBC-students/hw02-ShuxianFan/blob/master/hw02_gapminder.Rmd)
 
 
-_For the peer reviewer_: Here you can find the [peer review](http://stat545.com/Classroom/assignments/peer-review.html) page and the [assignments page](http://stat545.com/Classroom/assignments/) which stores the general evaluation rubrics.
+_For the peer reviewer_: For your convenience :wink:, here you can find the [peer review](http://stat545.com/Classroom/assignments/peer-review.html) page and the [assignments page](http://stat545.com/Classroom/assignments/) which stores the general evaluation rubrics.
 
